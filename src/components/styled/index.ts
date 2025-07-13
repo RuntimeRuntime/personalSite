@@ -1,0 +1,1 @@
+export { GradientTitle, Subtitle } from './Typography'; 

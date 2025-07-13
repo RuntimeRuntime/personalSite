@@ -1,0 +1,194 @@
+# Cursor Rules for  Project
+
+## Code Organization & Architecture
+
+### Component Structure
+
+- Use React functional components with hooks, never class components
+- Follow view/container pattern:
+  - *View components*: Handle rendering logic, presentation, and UI state
+  - *Container components*: Handle business logic, data fetching, and complex state management
+- Each View/Container pair should have its own dedicated folder
+- Group related components into hierarchical folder structures when logical
+
+### File Structure
+
+- Use lowercase with hyphens for folder names (e.g., table-editor/)
+- Use PascalCase for component files (e.g., TableEditor.tsx)
+- Use camelCase for utility/helper files (e.g., tableHelpers.ts)
+- Each component folder should contain:
+  - index.ts - exports
+  - ComponentName.tsx - main component
+  - ComponentName.test.tsx - tests
+  - ComponentName.types.ts - TypeScript types (if needed)
+  - hooks/ - custom hooks (if any)
+  - utils/ - component-specific utilities (if any)
+
+## Clean Code Principles
+
+### Naming Conventions
+
+- Use descriptive, intention-revealing names for all variables, functions, and components
+- Avoid abbreviations and single-letter variables (except for common loop counters)
+- Use verbs for functions (e.g., handleSubmit, validateInput, fetchUserData)
+- Use nouns for variables and components (e.g., userProfile, TableEditor)
+- Use boolean prefixes for boolean variables (e.g., isLoading, hasError, shouldRender)
+- Use arrow functions when creating components (e.g., export const test = () => {})
+- Use Types for pass
+
+### Function Guidelines
+
+- Keep functions small (ideally under 20 lines)
+- Functions should do one thing and do it well
+- Use pure functions when possible
+- Avoid deeply nested conditionals (max 3 levels)
+- Extract complex logic into separate, well-named functions
+- Don't include React.FC in function component declerations
+- If using props, use the following format: const test = ({foo, bar} : Props) => {}
+
+### Code Quality
+
+- Avoid code duplication - extract common logic into reusable functions or hooks
+- Write self-documenting code that doesn't require comments to understand
+- Use TypeScript strictly - no any types unless absolutely necessary
+- Prefer composition over inheritance
+- Use early returns to reduce nesting
+
+## Testing Requirements (TDD)
+
+### Test-First Development
+
+- Write tests BEFORE implementing any logic
+- Aim for 100% code coverage
+- Every file should have a corresponding test file
+- Use descriptive test names that explain the behavior being tested
+
+### Test Structure
+
+- Use AAA pattern (Arrange, Act, Assert)
+- Group related tests using describe blocks
+- Use it or test for individual test cases
+- Mock external dependencies and API calls
+- Test both happy path and error scenarios
+
+### Test File Organization
+
+- Place test files adjacent to the code they test
+- Use .test.tsx extension for React components
+- Use .test.ts extension for utility functions
+- Include integration tests for complex workflows
+
+## React Best Practices
+
+### Component Design
+
+- Keep components focused on a single responsibility
+- Break large components into smaller, reusable pieces
+- Use custom hooks to extract and reuse stateful logic
+- Prefer props drilling over complex state management for simple cases
+- Use proper prop types with TypeScript types
+
+### State Management
+
+- Use useState for local component state
+- Use useReducer for complex state logic
+- Lift state up only when necessary
+- Use context sparingly, only for truly global state
+- Prefer derived state over storing computed values
+
+### Performance
+
+- Use useMemo and useCallback judiciously (only when needed)
+- Avoid creating objects/functions in render methods
+- Use proper dependency arrays for hooks
+- Implement proper loading and error states
+
+## Code Examples
+
+### Good Component Structure
+
+typescript
+// Good: Small, focused component with clear responsibility
+type TableHeaderProps {
+  title: string;
+  onSort: (column: string) => void;
+  sortDirection: "asc" | "desc" | null;
+}
+
+const TableHeader: = ({title, onSort, sortDirection} : TableHeaderProps) => 
+ {
+  const handleClick = () => onSort(title);
+  return (
+    <th onClick={handleClick}>
+      {title}
+      {sortDirection && <SortIcon direction={sortDirection} />}
+    </th>
+  );
+};
+
+
+### Good Hook Usage
+
+typescript
+// Good: Custom hook for reusable logic
+const useTableData = (endpoint: string) => {
+  const [data, setData] = useState<TableData[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  // Implementation here...
+
+  return { data, isLoading, error, refetch };
+};
+
+
+## File Organization Rules
+
+### Folder Structure
+
+
+src/
+├── components/           # Reusable UI components
+│   ├── button/
+│   │   ├── Button.tsx
+│   │   ├── Button.test.tsx
+│   │   └── index.ts
+├── features/            # Feature-specific components
+│   ├── table-editor/
+│   │   ├── components/
+│   │   ├── containers/
+│   │   ├── hooks/
+│   │   ├── utils/
+│   │   └── index.ts
+├── hooks/               # Global custom hooks
+├── utils/               # Global utility functions
+├── types/               # Global TypeScript types
+├── api/                 # API layer
+└── __tests__/           # Global test utilities
+
+
+## Error Handling
+
+- Always handle errors gracefully
+- Provide meaningful error messages
+- Use error boundaries for React components
+- Log errors appropriately for debugging
+- Never fail silently
+
+## Documentation
+
+- Use JSDoc comments for complex functions
+- Document component props with TypeScript interfaces
+- Keep README files updated
+- Document any non-obvious business logic
+- Include usage examples for reusable components
+
+## Git & Version Control
+
+- Use meaningful commit messages
+- Keep commits small and focused
+- Create feature branches for new functionality
+- Write descriptive pull request descriptions
+- Include tests in the same commit as the feature
+
+Remember: Code should be written for humans to read, not just for computers to execute.
