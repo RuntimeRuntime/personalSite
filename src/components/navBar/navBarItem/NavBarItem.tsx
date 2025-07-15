@@ -14,7 +14,7 @@ export const NavBarItem = ({ label, href }: NavBarItemProps) => (
     component={Link}
     to={href}
     sx={{
-      color: '#f0f0f0',
+      color: '#ffffff',
       textDecoration: 'none',
       fontSize: '1.5rem',
       transition: 'all 0.2s ease-in-out',

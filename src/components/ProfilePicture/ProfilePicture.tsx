@@ -1,6 +1,7 @@
 import { Box } from '@mui/material';
+import profile from '../../assets/profile.png';
 
-const ProfilePicture: React.FC = () => {
+const ProfilePicture = () => {
   return (
     <Box
       sx={{
@@ -10,6 +11,10 @@ const ProfilePicture: React.FC = () => {
         backgroundColor: 'rgba(255, 255, 255, 0.2)',
         boxShadow: 3,
         border: '4px solid white',
+        backgroundImage: `url(${profile})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
       }}
     />
   );

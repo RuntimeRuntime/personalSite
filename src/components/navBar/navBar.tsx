@@ -20,8 +20,8 @@ export const NavBar = () => {
       elevation={0}
       sx={{
         backdropFilter: 'blur(8px)',
-        backgroundColor: 'rgba(255,255,255,0.3)',
-        borderBottom: '1px solid #e0e0e0',
+        backgroundColor: 'rgba(255,255,255,0.35)',
+        borderBottom: '1px solid #D1D1D1FF',
         boxShadow: '0 2px 6px rgba(200, 200, 200, 1)',
       }}
     >

@@ -27,19 +27,19 @@ describe('NavBarItem', () => {
   it('applies the correct default color', () => {
     render(<NavBarItem {...defaultProps} />);
     const link = screen.getByRole('link');
-    expect(link).toHaveStyle('color: #f0f0f0');
+    expect(link).toHaveStyle('color: #ffffff');
   });
 
   it('applies the correct hover and focus styles', async () => {
     render(<NavBarItem {...defaultProps} />);
     const link = screen.getByRole('link');
     // Simulate hover
-    await userEvent.hover(link);
-    // We can't test computed styles directly, but we can check the style prop
-    // (MUI applies styles via inline style or class, so this is a basic check)
-    // For more robust style checks, use visual regression or integration tests
-    // Simulate focus
-    link.focus();
+    userEvent.hover(link);
+    expect(link).toHaveStyle('transform: scale(1.1)');
+    expect(link).toHaveStyle('color: #ffffff');
+    expect(link).toHaveStyle('background-color: transparent');
+    userEvent.tab();
     expect(link).toHaveFocus();
+    expect(link).toHaveStyle('background-color: transparent');
   });
 }); 
