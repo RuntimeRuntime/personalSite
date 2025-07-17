@@ -5,8 +5,28 @@ import layer1 from '../../assets/parralax-background/layer1.png';
 import layer2 from '../../assets/parralax-background/layer2.png';
 import layer3New from '../../assets/parralax-background/layer3New.png';
 
+// Image loading hook for optimization
+const useImageLoader = (src: string) => {
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [hasError, setHasError] = useState(false);
+
+  useEffect(() => {
+    const img = new Image();
+    img.onload = () => setIsLoaded(true);
+    img.onerror = () => setHasError(true);
+    img.src = src;
+  }, [src]);
+
+  return { isLoaded, hasError };
+};
+
 const LandingPage: React.FC = () => {
   const [scrollY, setScrollY] = useState(0);
+  
+  // Preload images for better performance
+  const layer1Status = useImageLoader(layer1);
+  const layer2Status = useImageLoader(layer2);
+  const layer3Status = useImageLoader(layer3New);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -24,7 +44,6 @@ const LandingPage: React.FC = () => {
 
   return (
     <>
-      {/* Parallax Hero Section */}
       <Box
         sx={{
           minHeight: '100vh',
@@ -41,13 +60,15 @@ const LandingPage: React.FC = () => {
             position: 'absolute',
             width: '100%',
             height: '120%', // Slightly larger to accommodate movement
-            backgroundImage: `url(${layer1})`,
+            backgroundImage: layer1Status.isLoaded ? `url(${layer1})` : 'none',
             backgroundSize: 'cover',
             backgroundPosition: 'center',
             backgroundRepeat: 'no-repeat',
             transform: `translate3d(0, ${-layer1Offset}px, 0)`,
             willChange: 'transform',
             zIndex: 1,
+            transition: 'opacity 0.3s ease-in-out',
+            opacity: layer1Status.isLoaded ? 1 : 0,
           }}
         />
         
@@ -58,14 +79,15 @@ const LandingPage: React.FC = () => {
             top: 200,
             width: '100%',
             height: '120%', // Slightly larger to accommodate movement
-            backgroundImage: `url(${layer2})`,
+            backgroundImage: layer2Status.isLoaded ? `url(${layer2})` : 'none',
             backgroundSize: 'cover',
             backgroundPosition: 'center',
             backgroundRepeat: 'no-repeat',
             transform: `translate3d(0, ${-layer2Offset}px, 0)`,
             willChange: 'transform',
             zIndex: 2,
-            opacity: 0.8,
+            opacity: layer2Status.isLoaded ? 0.8 : 0,
+            transition: 'opacity 0.3s ease-in-out',
           }}
         />
         {/* Layer 3 - Foreground */}
@@ -74,13 +96,15 @@ const LandingPage: React.FC = () => {
             top: 600,
             width: '100%',
             height: '100%',
-            backgroundImage: `url(${layer3New})`,
+            backgroundImage: layer3Status.isLoaded ? `url(${layer3New})` : 'none',
             backgroundSize: 'cover',
             backgroundPosition: 'center',
             backgroundRepeat: 'no-repeat',
             transform: `translate3d(0, ${-layer3Offset}px, 0)`,
             willChange: 'transform',
             zIndex: 3,
+            transition: 'opacity 0.3s ease-in-out',
+            opacity: layer3Status.isLoaded ? 1 : 0,
         }}></Box>
 
         {/* Content */}
